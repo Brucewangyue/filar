@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: dev
+  mvc:
+    format:
+      date: yyyy-MM-dd
+      date-time: yyyy-MM-dd HH:mm:ss
+      time: HH:mm:ss
+
+mybatis:
+#  mapper-locations: classpath:dao/*.xml
+  type-aliases-package: com.bruce.filar.entity

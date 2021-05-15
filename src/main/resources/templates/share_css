@@ -1,0 +1,6 @@
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/layui.css" rel="stylesheet">
+<link href="css/home.css" rel="stylesheet">
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/layui.all.js"></script>
