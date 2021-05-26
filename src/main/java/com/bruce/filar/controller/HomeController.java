@@ -12,12 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.Resource;
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.net.URL;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 @Controller
 public class HomeController {
@@ -34,7 +30,7 @@ public class HomeController {
 
     @GetMapping("addItem")
     public String addItem() {
-        return "addItem";
+        return "itemAdd";
     }
 
     @PostMapping("addItem")
@@ -83,8 +79,42 @@ public class HomeController {
         return "success";
     }
 
-    @GetMapping("staticFileView")
-    public String staticFileView(int id) {
-        return "item" + id;
+    @GetMapping("templateList")
+    public String staticFileView(Model model) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("title", "商品item模板");
+        map.put("id", 1);
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list.add(map);
+
+        model.addAttribute("templates", list);
+        return "templateList";
+    }
+
+    @GetMapping("editTemplate")
+    public String editTemplate(Model model) throws IOException {
+        model.addAttribute("msg", "成功编辑模板");
+
+        String filePath = HomeController.class.getClassLoader().getResource("templates/itemView.html").getFile();
+        File templateFile = new File(filePath);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(templateFile)));
+        StringBuilder sb = new StringBuilder();
+
+        String newLine = bufferedReader.readLine();
+        while (null != newLine) {
+            sb.append(newLine).append("\r\n");
+
+            newLine = bufferedReader.readLine();
+        }
+        bufferedReader.close();
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("content",sb.toString());
+        map.put("title","商品item模板");
+        model.addAttribute("template", map);
+
+        System.out.println(sb.toString());
+        return "templateEdit";
     }
 }
