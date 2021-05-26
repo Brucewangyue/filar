@@ -1,5 +1,7 @@
 package com.bruce.filar.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,6 +28,7 @@ public class Item implements Serializable {
     /**
      * 最后生成日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date lastGenerate;
 
     private static final long serialVersionUID = 1L;

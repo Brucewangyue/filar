@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport"
+          content="user-scalable=no, width=device-width, minimum-scale=1, maximum-scale=1">
+    <title>静态文件管理</title>
+    #include("share_css")
+</head>
+<body>
+#include("header")
+<div class="content why-hilo">
+    <h2>静态文件列表</h2>
+    <p class="info">
+        管理静态文件 <br/>
+    </p>
+
+    <div class="layui-container">
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>标题</th>
+                <th>最后生成日期</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            #for(item:items)
+            <tr>
+                <td>#(item.id)</td>
+                <td>#(item.title)</td>
+                <td>#date(item.lastGenerate)</td>
+                <td>
+                    <a href="itemView?id=#(item.id)" target="_blank">实时渲染</a> |
+                    <a href="generateStaticFile?id=#(item.id)" target="_blank">生成</a> |
+                    <a href="item#(item.id).html" target="_blank">查看已渲染</a>
+                </td>
+            </tr>
+            #end
+            </tbody>
+        </table>
+    </div>
+</div>
+
+#include("footer")
+</body>
+</html>

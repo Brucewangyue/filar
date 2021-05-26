@@ -5,6 +5,16 @@ spring:
     url: jdbc:mysql://10.9.33.193:3306/filar
     username: root
     password: F@20dms2020
+  web:
+    resources:
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/public/,classpath:/static/,file:D:\my\tpl
+  mvc:
+    format:
+      date: yyyy-MM-dd
+      date-time: yyyy-MM-dd HH:mm:ss
+      time: HH:mm:ss
 logging:
   level:
     com.bruce.fliar.mapper: debug
+
+static-file-location: D:/my/tpl/
