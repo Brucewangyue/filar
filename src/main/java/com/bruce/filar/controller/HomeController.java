@@ -5,6 +5,7 @@ import com.bruce.filar.service.ItemService;
 import com.jfinal.kit.Kv;
 import com.jfinal.template.Engine;
 import com.jfinal.template.Template;
+import com.jfinal.template.ext.spring.JFinalViewResolver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.net.InetAddress;
 import java.util.*;
 
 @Controller
@@ -20,7 +22,7 @@ public class HomeController {
     @Resource
     private ItemService itemService;
 
-    @Value("${static-file-location}")
+    @Value("${staticFile.nginxRootPath}")
     private String staticFileLocation;
 
     @GetMapping("/")
@@ -64,12 +66,9 @@ public class HomeController {
         item.setLastGenerate(new Date());
         itemService.update(item);
 
-        Engine engine = new Engine();
-        engine.setDevMode(true);
-        engine.setToClassPathSourceFactory();
-
-//        String filePath = HomeController.class.getClassLoader().getResource("templates/itemView.html").getFile();
-        Template template = engine.getTemplate("templates/itemView.html");
+        // 全局引擎
+        Engine engine = JFinalViewResolver.engine;
+        Template template = engine.getTemplate("itemView.html");
         Kv kv = Kv.by("item", item);
 
         // todo io 用法
@@ -109,12 +108,36 @@ public class HomeController {
         }
         bufferedReader.close();
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("content",sb.toString());
-        map.put("title","商品item模板");
+        Map<String, Object> map = new HashMap<>();
+        map.put("content", sb.toString());
+        map.put("title", "商品item模板");
         model.addAttribute("template", map);
 
         System.out.println(sb.toString());
         return "templateEdit";
+    }
+
+    @GetMapping("generateAllStaticFile")
+    public String generateAllStaticFile(Model model) {
+
+        return "success";
+    }
+
+    @GetMapping("health")
+    public String health(Model model) throws IOException {
+
+        Map<String, Object> hostMap = new HashMap<>();
+        hostMap.put("192.168.177.131", false);
+        hostMap.put("192.168.177.132", false);
+        hostMap.put("192.168.177.133", false);
+
+        for (Map.Entry<String, Object> entry : hostMap.entrySet()) {
+            InetAddress inetAddress = InetAddress.getByName(entry.getKey());
+            if (inetAddress.isReachable(1500))
+                entry.setValue(true);
+        }
+
+        model.addAttribute("items", hostMap);
+        return "health";
     }
 }

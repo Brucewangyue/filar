@@ -17,4 +17,6 @@ logging:
   level:
     com.bruce.fliar.mapper: debug
 
-static-file-location: D:/my/tpl/
+staticFile:
+  templatePath: /templates/
+  nginxRootPath: D:/my/tpl/

@@ -2,6 +2,7 @@ package com.bruce.filar.config;
 
 import com.jfinal.template.Engine;
 import com.jfinal.template.ext.spring.JFinalViewResolver;
+import com.jfinal.template.source.FileSourceFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,11 +29,14 @@ public class EnjoyConfig {
         engine.setDevMode(true);
 
         // 使用 ClassPathSourceFactory 从 class path 与 jar 包中加载模板文件
-        engine.setToClassPathSourceFactory();
-
         // 在使用 ClassPathSourceFactory 时要使用 setBaseTemplatePath
+        engine.setToClassPathSourceFactory();
         // 代替 jfr.setPrefix("/view/")
         engine.setBaseTemplatePath("/templates/");
+
+        // 从指定的绝对路径中加载模板
+//        engine.setBaseTemplatePath("d:/my/tpl");
+//        engine.setSourceFactory(new FileSourceFactory());
 
         // 添加模板函数
 //        engine.addSharedFunction("/common/_layout.html");

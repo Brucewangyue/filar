@@ -4,11 +4,14 @@ import com.bruce.filar.dao.ItemDao;
 import com.bruce.filar.entity.Item;
 import com.bruce.filar.entity.ItemExample;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+@Transactional
 public class ItemService {
     @Resource
     private ItemDao itemDao;
@@ -16,6 +19,7 @@ public class ItemService {
     public Item insert(Item item) {
         itemDao.insert(item);
         System.out.println(item.getId());
+//        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         return item;
     }
 
